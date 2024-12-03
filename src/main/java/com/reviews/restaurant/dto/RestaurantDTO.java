@@ -1,7 +1,12 @@
 package com.reviews.restaurant.dto;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.List;
 
+@Data
+@Builder
 public class RestaurantDTO {
 
     private Long idRestaurante;
