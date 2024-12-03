@@ -16,17 +16,17 @@ public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_imagen")
-    private Long idImagen;
+    @Column(name = "id_image")
+    private Long idImage;
 
-    @Column(name = "imagen_url")
-    private String imagen;
-
-    @ManyToOne
-    @JoinColumn(name = "id_restaurante")
-    private Restaurant restaurante;
+    @Column(name = "image_url")
+    private String image;
 
     @ManyToOne
-    @JoinColumn(name = "id_resena")
+    @JoinColumn(name = "id_restaurant")
+    private Restaurant restaurant;
+
+    @ManyToOne
+    @JoinColumn(name = "id_review")
     private Review review;
 }

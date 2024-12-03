@@ -18,20 +18,20 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_categoria")
-    private Long idCategoria;
+    @Column(name = "id_category")
+    private Long idCategory;
 
-    @Column(name = "categoria")
-    private String categoria;
+    @Column(name = "category")
+    private String category;
 
-    @Column(name = "descripcion" , columnDefinition = "TEXT")
-    private String descripcion;
+    @Column(name = "description" , columnDefinition = "TEXT")
+    private String description;
 
-    @OneToMany(targetEntity = Restaurant.class, fetch = FetchType.LAZY, mappedBy = "categoria")
-    private List<Restaurant> restaurantes;
+    @OneToMany(targetEntity = Restaurant.class, fetch = FetchType.LAZY, mappedBy = "category")
+    private List<Restaurant> restaurants;
 
     @OneToOne
-    @JoinColumn(name = "id_imagen")
-    private Image imagenCategoria;
+    @JoinColumn(name = "id_image")
+    private Image imageCategory;
 
 }

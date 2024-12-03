@@ -18,38 +18,38 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_resena")
-    private Long idResena;
+    @Column(name = "id_review")
+    private Long idReview;
 
-    @Column(name = "lugar")
-    private Double lugar;
+    @Column(name = "place")
+    private Double place;
 
-    @Column(name = "comida")
-    private Double comida;
+    @Column(name = "food")
+    private Double food;
 
-    @Column(name = "servicio")
-    private Double servicio;
+    @Column(name = "service")
+    private Double service;
 
-    @Column(name = "bebidas")
-    private Double bebidas;
+    @Column(name = "drinks")
+    private Double drinks;
 
-    @Column(name = "musica")
-    private Double musica;
+    @Column(name = "music")
+    private Double music;
 
     @Column(name = "menu")
     private Double menu;
 
-    @Column(name = "tiempo_espera")
-    private Double tiempoEspera;
+    @Column(name = "waiting_time")
+    private Double waiting_time;
 
-    @Column(name = "comentario")
-    private String comentario;
+    @Column(name = "comments")
+    private String comments;
 
     @ManyToOne
-    @JoinColumn(name = "id_restaurante")
-    private Restaurant restaurante;
+    @JoinColumn(name = "id_restaurant")
+    private Restaurant restaurant;
 
-    @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, mappedBy = "resena")
-    private List<Image> imagenList;
+    @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, mappedBy = "review")
+    private List<Image> reviewImages;
 
 }
