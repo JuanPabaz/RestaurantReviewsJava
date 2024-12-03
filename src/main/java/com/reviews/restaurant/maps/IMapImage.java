@@ -1,9 +1,7 @@
 package com.reviews.restaurant.maps;
 
 import com.reviews.restaurant.dto.ImageDTO;
-import com.reviews.restaurant.dto.RestaurantDTO;
 import com.reviews.restaurant.entities.Image;
-import com.reviews.restaurant.entities.Restaurant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
