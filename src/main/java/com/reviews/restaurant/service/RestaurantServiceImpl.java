@@ -5,6 +5,7 @@ import com.reviews.restaurant.maps.IMapRestaurant;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,9 +15,9 @@ public class RestaurantServiceImpl implements IRestaurantService {
 
     private final IMapRestaurant mapRestaurant;
 
-    public RestaurantServiceImpl(IMapRestaurant mapRestaurant, RestaurantRepository restaurantRepository) {
-        this.mapRestaurant = mapRestaurant;
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant) {
         this.restaurantRepository = restaurantRepository;
+        this.mapRestaurant = mapRestaurant;
     }
 
     @Override
