@@ -15,7 +15,7 @@ public interface IMapCategory {
             @Mapping(source = "idCategory",target = "idCategory"),
             @Mapping(source = "category", target = "category"),
             @Mapping(source = "description", target = "description"),
-            @Mapping(source = "imageCategory", target = "imageCategory.idImage")
+            @Mapping(source = "imageCategory.idImage", target = "idImage")
     })
     CategoryDTO mapCategory(Category category);
 
