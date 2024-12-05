@@ -5,11 +5,12 @@ import com.reviews.restaurant.service.IRestaurantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/restaurante")
+@RestController
+@RequestMapping("/restaurant")
 public class RestauranteController {
 
     private final IRestaurantService restaurantService;
