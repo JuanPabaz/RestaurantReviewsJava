@@ -1,16 +1,18 @@
 package com.reviews.restaurant.dto;
 
-import com.reviews.restaurant.entities.Restaurant;
-import com.reviews.restaurant.entities.Review;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class ImageDTO {
 
     private Long idImage;
     private String image;
-    private Restaurant restaurant;
-    private Review review;
+    private Long idRestaurant;
+    private Long idReview;
 }
