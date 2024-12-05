@@ -1,19 +1,17 @@
 package com.reviews.restaurant.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "restaurant")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
 public class Restaurant {
 
     @Id
