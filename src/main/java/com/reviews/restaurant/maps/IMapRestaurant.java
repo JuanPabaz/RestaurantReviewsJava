@@ -16,7 +16,7 @@ public interface IMapRestaurant {
             @Mapping(source = "restuarantName", target = "restuarantName"),
             @Mapping(source = "address", target = "address"),
             @Mapping(source = "phoneNumber", target = "phoneNumber"),
-            @Mapping(source = "category", target = "category.idCategoria")
+            @Mapping(source = "category.idCategory", target = "idCategory")
     })
     RestaurantDTO mapRestaurant(Restaurant restaurant);
 
