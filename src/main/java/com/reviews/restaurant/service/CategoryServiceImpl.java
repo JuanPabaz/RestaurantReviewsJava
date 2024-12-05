@@ -4,7 +4,6 @@ import com.reviews.restaurant.dto.CategoryDTO;
 import com.reviews.restaurant.maps.IMapCategory;
 import com.reviews.restaurant.repositories.CategoryRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryServiceImpl implements ICategoryService {

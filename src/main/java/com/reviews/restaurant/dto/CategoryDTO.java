@@ -1,8 +1,6 @@
 package com.reviews.restaurant.dto;
 
-import com.reviews.restaurant.entities.Image;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

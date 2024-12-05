@@ -2,7 +2,6 @@ package com.reviews.restaurant.controllers;
 
 import com.reviews.restaurant.dto.RestaurantDTO;
 import com.reviews.restaurant.service.IRestaurantService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

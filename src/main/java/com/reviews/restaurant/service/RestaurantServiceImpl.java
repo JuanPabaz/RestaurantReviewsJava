@@ -5,7 +5,6 @@ import com.reviews.restaurant.maps.IMapRestaurant;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
