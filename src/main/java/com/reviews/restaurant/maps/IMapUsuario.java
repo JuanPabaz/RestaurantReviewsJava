@@ -12,7 +12,7 @@ import java.util.List;
 public interface IMapUsuario {
 
     @Mappings({
-            @Mapping(source = "idUsuario", target = "idUsuario"),
+            @Mapping(source = "idUser", target = "idUser"),
             @Mapping(source = "nombreCompleto",target = "nombreCompleto"),
             @Mapping(source = "role", target = "role"),
             @Mapping(source = "username", target = "username")

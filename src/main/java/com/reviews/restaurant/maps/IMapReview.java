@@ -21,8 +21,8 @@ public interface IMapReview {
             @Mapping(source = "menu", target = "menu"),
             @Mapping(source = "waitingTime", target = "waitingTime"),
             @Mapping(source = "comments", target = "comments"),
-            @Mapping(source = "Restaurant.idRestaurant", target = "idRestaurant"),
-            @Mapping(source = "User.idUser", target = "idUser"),
+            @Mapping(source = "restaurant.idRestaurant", target = "idRestaurant"),
+            @Mapping(source = "user.idUser", target = "idUser"),
     })
     ReviewResponseDTO mapReview(Review review);
 
