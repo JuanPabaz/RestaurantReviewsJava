@@ -5,12 +5,12 @@ import com.reviews.restaurant.dto.ImageResponseDTO;
 import com.reviews.restaurant.entities.Image;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.Review;
+import com.reviews.restaurant.exceptions.BadCreateRequest;
 import com.reviews.restaurant.maps.IMapImage;
 import com.reviews.restaurant.repositories.ImageRepository;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import com.reviews.restaurant.repositories.ReviewRepository;
 import lombok.SneakyThrows;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,16 +42,16 @@ public class ImageServiceImpl implements IIMageService{
         return mapImage.mapImageList(imageRepository.saveAll(images));
     }
 
-    private Image convertToEntity(ImageRequestDTO imageDTO) throws BadRequestException {
+    private Image convertToEntity(ImageRequestDTO imageDTO) throws BadCreateRequest {
         Review review = new Review();
         if (imageDTO.getIdReview() != null) {
-            review = reviewRepository.findById(imageDTO.getIdReview()).orElseThrow(() -> new BadRequestException("Reseña no encontrada"));
+            review = reviewRepository.findById(imageDTO.getIdReview()).orElseThrow(() -> new BadCreateRequest("Reseña no encontrada"));
         }else {
             review = null;
         }
         Restaurant restaurant = new Restaurant();
         if (imageDTO.getIdRestaurant() != null) {
-            restaurant = restaurantRepository.findById(imageDTO.getIdRestaurant()).orElseThrow(() -> new BadRequestException("Restaurant no encontrada"));
+            restaurant = restaurantRepository.findById(imageDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("Restaurant no encontrada"));
         }else {
             restaurant = null;
         }
