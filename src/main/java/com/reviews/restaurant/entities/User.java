@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,16 +23,16 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
-    private Integer idUsuario;
+    @Column(name = "id_user")
+    private Integer idUser;
 
-    @Column(name = "nombre_completo_usuario")
+    @Column(name = "full_name_user")
     private String nombreCompleto;
 
-    @Column(name = "correo_usuario")
+    @Column(name = "user_email")
     private String username;
 
-    @Column(name = "contrasena")
+    @Column(name = "password")
     private String password;
 
     @Enumerated(value = EnumType.STRING)
