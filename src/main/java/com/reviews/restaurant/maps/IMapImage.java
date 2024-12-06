@@ -1,6 +1,6 @@
 package com.reviews.restaurant.maps;
 
-import com.reviews.restaurant.dto.ImageDTO;
+import com.reviews.restaurant.dto.ImageResponseDTO;
 import com.reviews.restaurant.entities.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,7 +17,7 @@ public interface IMapImage{
             @Mapping(source = "restaurant.idRestaurant", target = "idRestaurant"),
             @Mapping(source = "review.idReview", target = "idReview")
     })
-    ImageDTO mapImage(Image image);
+    ImageResponseDTO mapImage(Image image);
 
-    List<ImageDTO> mapImageList(List<Image> imageList);
+    List<ImageResponseDTO> mapImageList(List<Image> imageList);
 }
