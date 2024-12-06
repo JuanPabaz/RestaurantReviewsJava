@@ -14,12 +14,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "user")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,9 @@ public class Usuario implements UserDetails {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(targetEntity = Review.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Review> reviews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

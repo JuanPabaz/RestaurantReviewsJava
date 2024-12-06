@@ -1,7 +1,7 @@
 package com.reviews.restaurant.service;
 
 import com.reviews.restaurant.dto.UsuarioResponseDTO;
-import com.reviews.restaurant.entities.Usuario;
+import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.enums.Role;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
@@ -31,24 +31,24 @@ public class AuthenticationService {
     }
 
 
-    public UsuarioResponseDTO saveUser(Usuario usuario) throws BadUserCredentialsException {
-        if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()){
-            throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ usuario.getUsername() + ".");
+    public UsuarioResponseDTO saveUser(User user) throws BadUserCredentialsException {
+        if (usuarioRepository.findByUsername(user.getUsername()).isPresent()){
+            throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ user.getUsername() + ".");
         }
 
         String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d/*\\-_.º!?¿'¡#!$%&]{6,}$";
-        if (!usuario.getPassword().matches(passwordRegex)){
+        if (!user.getPassword().matches(passwordRegex)){
             throw new BadUserCredentialsException("La contraseña debe tener al menos 6 caracteres y contener al menos una letra y un número.");
         }
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!usuario.getUsername().matches(emailRegex)){
+        if (!user.getUsername().matches(emailRegex)){
             throw new BadUserCredentialsException("El correo no es valido.");
         }
 
-        usuario.setRole(Role.ADMIN);
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        user.setRole(Role.ADMIN);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return mapUsuario.mapUsuario(usuarioRepository.save(usuario));
+        return mapUsuario.mapUsuario(usuarioRepository.save(user));
     }
 
     public String generateToken(String username) throws ObjectNotFoundException {

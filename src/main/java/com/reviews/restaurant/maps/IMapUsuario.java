@@ -1,7 +1,7 @@
 package com.reviews.restaurant.maps;
 
 import com.reviews.restaurant.dto.UsuarioResponseDTO;
-import com.reviews.restaurant.entities.Usuario;
+import com.reviews.restaurant.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -17,7 +17,7 @@ public interface IMapUsuario {
             @Mapping(source = "role", target = "role"),
             @Mapping(source = "username", target = "username")
     })
-    UsuarioResponseDTO mapUsuario(Usuario usuario);
+    UsuarioResponseDTO mapUsuario(User user);
 
-    List<UsuarioResponseDTO> mapUsuarioList(List<Usuario> usuarioList);
+    List<UsuarioResponseDTO> mapUsuarioList(List<User> userList);
 }

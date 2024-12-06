@@ -38,7 +38,7 @@ public class Review {
     private Double menu;
 
     @Column(name = "waiting_time")
-    private Double waiting_time;
+    private Double waitingTime;
 
     @Column(name = "comments")
     private String comments;
@@ -46,6 +46,10 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 
     @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, mappedBy = "review")
     private List<Image> reviewImages;

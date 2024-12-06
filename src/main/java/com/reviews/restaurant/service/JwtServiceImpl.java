@@ -1,6 +1,6 @@
 package com.reviews.restaurant.service;
 
-import com.reviews.restaurant.entities.Usuario;
+import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
 import com.reviews.restaurant.repositories.UsuarioRepository;
 import io.jsonwebtoken.Claims;
@@ -78,8 +78,8 @@ public class JwtServiceImpl {
 
     public String generateToken(String username) throws ObjectNotFoundException {
         Map<String,Object> claims = new HashMap<>();
-        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
-        claims.put("role",usuario.getRole());
+        User user = usuarioRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+        claims.put("role", user.getRole());
         return createToke(claims,username);
     }
 

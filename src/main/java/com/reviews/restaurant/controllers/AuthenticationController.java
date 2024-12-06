@@ -5,7 +5,7 @@ import com.reviews.restaurant.dto.AuthRequestDTO;
 import com.reviews.restaurant.dto.AuthResponseDTO;
 import com.reviews.restaurant.dto.UsuarioResponseDTO;
 import com.reviews.restaurant.entities.RefreshToken;
-import com.reviews.restaurant.entities.Usuario;
+import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ExpiredRefreshTokenException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
@@ -44,8 +44,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public UsuarioResponseDTO addNewUser(@RequestBody Usuario usuario) throws Exception {
-        return authenticationService.saveUser(usuario);
+    public UsuarioResponseDTO addNewUser(@RequestBody User user) throws Exception {
+        return authenticationService.saveUser(user);
     }
 
     @PostMapping("/login")
@@ -75,7 +75,7 @@ public class AuthenticationController {
 
         return refreshTokenService.findByToken(authResponseDTO.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUsuario)
+                .map(RefreshToken::getUser)
                 .map(userCredential -> {
                     String accessToken = null;
                     try {
