@@ -1,12 +1,17 @@
 package com.reviews.restaurant.dto;
 
-import com.reviews.restaurant.entities.Restaurant;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Builder
-public class ReviewDTO {
+@AllArgsConstructor
+public class ReviewResponseDTO {
 
     private Long idReview;
     private Double place;
@@ -15,8 +20,10 @@ public class ReviewDTO {
     private Double drinks;
     private Double music;
     private Double menu;
-    private Double waiting_time;
+    private Double waitingTime;
     private String comments;
-    private Restaurant restaurant;
+    private Long idRestaurant;
+    private Long idUser;
+    private List<ImageResponseDTO> images;
 
 }
