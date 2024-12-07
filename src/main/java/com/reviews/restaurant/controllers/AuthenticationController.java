@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public UsuarioResponseDTO addNewUser(@RequestBody User user) throws Exception {
+    public UsuarioResponseDTO addNewUser(@RequestBody User user){
         return authenticationService.saveUser(user);
     }
 
@@ -53,7 +53,7 @@ public class AuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             Optional<RefreshToken> refreshTokenOptional = refreshTokenService.findByUsername(authRequest.getUsername());
-            refreshTokenOptional.ifPresent(refreshToken -> refreshTokenService.DeleteRefreshToken(refreshToken));
+            refreshTokenOptional.ifPresent(refreshTokenService::DeleteRefreshToken);
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequest.getUsername());
             return AuthResponseDTO
                     .builder()
