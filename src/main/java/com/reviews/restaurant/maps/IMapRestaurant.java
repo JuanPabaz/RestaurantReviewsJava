@@ -1,6 +1,6 @@
 package com.reviews.restaurant.maps;
 
-import com.reviews.restaurant.dto.RestaurantDTO;
+import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import com.reviews.restaurant.entities.Restaurant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,8 +18,8 @@ public interface IMapRestaurant {
             @Mapping(source = "phoneNumber", target = "phoneNumber"),
             @Mapping(source = "category.idCategory", target = "idCategory")
     })
-    RestaurantDTO mapRestaurant(Restaurant restaurant);
+    RestaurantResponseDTO mapRestaurant(Restaurant restaurant);
 
-    List<RestaurantDTO> mapRestaurantList(List<Restaurant> restaurantList);
+    List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList);
 
 }

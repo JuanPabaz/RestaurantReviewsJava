@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class RestaurantDTO {
+public class RestaurantResponseDTO {
 
     private Long idRestaurant;
     private String restuarantName;
