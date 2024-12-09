@@ -1,5 +1,6 @@
 package com.reviews.restaurant.service;
 
+import com.reviews.restaurant.dto.RegisterRequestDTO;
 import com.reviews.restaurant.dto.UsuarioResponseDTO;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.enums.Role;
@@ -31,24 +32,31 @@ public class AuthenticationService {
     }
 
 
-    public UsuarioResponseDTO saveUser(User user) throws BadUserCredentialsException {
-        if (usuarioRepository.findByUsername(user.getUsername()).isPresent()){
-            throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ user.getUsername() + ".");
+    public UsuarioResponseDTO saveUser(RegisterRequestDTO registerRequestDTO) throws BadUserCredentialsException {
+        if (usuarioRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()){
+            throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ registerRequestDTO.getUsername() + ".");
         }
 
         String passwordRegex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d/*\\-_.º!?¿'¡#!$%&]{6,}$";
-        if (!user.getPassword().matches(passwordRegex)){
+        if (!registerRequestDTO.getPassword().matches(passwordRegex)){
             throw new BadUserCredentialsException("La contraseña debe tener al menos 6 caracteres y contener al menos una letra y un número.");
         }
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!user.getUsername().matches(emailRegex)){
+        if (!registerRequestDTO.getUsername().matches(emailRegex)){
             throw new BadUserCredentialsException("El correo no es valido.");
         }
 
-        user.setRole(Role.ADMIN);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        registerRequestDTO.setRole(Role.ADMIN);
+        registerRequestDTO.setPassword(passwordEncoder.encode(registerRequestDTO.getPassword()));
 
-        return mapUsuario.mapUsuario(usuarioRepository.save(user));
+        User user = User.builder()
+                .username(registerRequestDTO.getUsername())
+                .password(passwordEncoder.encode(registerRequestDTO.getPassword()))
+                .role(registerRequestDTO.getRole())
+                .fullName(registerRequestDTO.getFullName())
+                .build();
+
+        return mapUsuario.mapUsuario(user);
     }
 
     public String generateToken(String username) throws ObjectNotFoundException {

@@ -13,7 +13,7 @@ public interface IMapUsuario {
 
     @Mappings({
             @Mapping(source = "idUser", target = "idUser"),
-            @Mapping(source = "nombreCompleto",target = "nombreCompleto"),
+            @Mapping(source = "fullName",target = "fullName"),
             @Mapping(source = "role", target = "role"),
             @Mapping(source = "username", target = "username")
     })

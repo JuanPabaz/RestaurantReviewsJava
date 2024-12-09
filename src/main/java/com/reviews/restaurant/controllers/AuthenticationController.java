@@ -3,9 +3,9 @@ package com.reviews.restaurant.controllers;
 
 import com.reviews.restaurant.dto.AuthRequestDTO;
 import com.reviews.restaurant.dto.AuthResponseDTO;
+import com.reviews.restaurant.dto.RegisterRequestDTO;
 import com.reviews.restaurant.dto.UsuarioResponseDTO;
 import com.reviews.restaurant.entities.RefreshToken;
-import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ExpiredRefreshTokenException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
@@ -44,8 +44,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public UsuarioResponseDTO addNewUser(@RequestBody User user){
-        return authenticationService.saveUser(user);
+    public UsuarioResponseDTO addNewUser(@RequestBody RegisterRequestDTO registerRequestDTO){
+        return authenticationService.saveUser(registerRequestDTO);
     }
 
     @PostMapping("/login")
