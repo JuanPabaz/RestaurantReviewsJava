@@ -22,11 +22,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.userDetailsService = userDetailsService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -34,11 +37,9 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/auth/login/**","/auth/register/**","/auth/refreshToken/**",
-                                        "/api/empresa","/api/usuario","/auth/validateToken/**",
-                                        "/swagger-ui/**",
-                                        "/v3/api-docs/**",
-                                        "/swagger-ui.html").permitAll()
+                        req -> req.requestMatchers("/auth/login/**","/auth/register/**","/auth/refreshToken/**"
+                                        ,"/auth/validateToken/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html",
+                                        "/restaurant").permitAll()
                                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 ).userDetailsService(userDetailsService)
