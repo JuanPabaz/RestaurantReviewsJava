@@ -1,12 +1,15 @@
 package com.reviews.restaurant.service;
 
+import com.reviews.restaurant.dto.ImageResponseDTO;
 import com.reviews.restaurant.dto.RestaurantRequestDTO;
 import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import com.reviews.restaurant.entities.Category;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
+import com.reviews.restaurant.maps.IMapImage;
 import com.reviews.restaurant.maps.IMapRestaurant;
 import com.reviews.restaurant.repositories.CategoryRepository;
+import com.reviews.restaurant.repositories.ImageRepository;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
@@ -22,15 +25,27 @@ public class RestaurantServiceImpl implements IRestaurantService {
 
     private final CategoryRepository categoryRepository;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant, CategoryRepository categoryRepository) {
+    private final ImageRepository imageRepository;
+
+    private final IMapImage mapImage;
+
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant, CategoryRepository categoryRepository, ImageRepository imageRepository, IMapImage mapImage) {
         this.restaurantRepository = restaurantRepository;
         this.mapRestaurant = mapRestaurant;
         this.categoryRepository = categoryRepository;
+        this.imageRepository = imageRepository;
+        this.mapImage = mapImage;
     }
 
     @Override
     public List<RestaurantResponseDTO> getAllRestaurants() {
-        return mapRestaurant.mapRestaurantList(restaurantRepository.findAll());
+        List<RestaurantResponseDTO> restaurants = mapRestaurant.mapRestaurantList(restaurantRepository.findAll());
+        return restaurants.stream()
+                .peek(restaurant -> {
+                    List<ImageResponseDTO> images = mapImage.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
+                    restaurant.setImages(images);
+                })
+                .toList();
     }
 
     @Override
