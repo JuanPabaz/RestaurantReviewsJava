@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurant")
-public class RestauranteController {
+public class RestaurantController {
 
     private final IRestaurantService restaurantService;
 
-    public RestauranteController(IRestaurantService restaurantService) {
+    public RestaurantController(IRestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
