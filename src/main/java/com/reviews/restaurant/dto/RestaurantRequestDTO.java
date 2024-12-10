@@ -15,4 +15,5 @@ public class RestaurantRequestDTO {
     private String address;
     private String phoneNumber;
     private Long idCategory;
+    private String pageLink;
 }

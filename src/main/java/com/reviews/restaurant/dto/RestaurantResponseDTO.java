@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -17,4 +19,6 @@ public class RestaurantResponseDTO {
     private String address;
     private String phoneNumber;
     private Long idCategory;
+    private String pageLink;
+    private List<ImageResponseDTO> images;
 }

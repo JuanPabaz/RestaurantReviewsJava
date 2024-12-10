@@ -28,6 +28,9 @@ public class Restaurant {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "page_link")
+    private String pageLink;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
