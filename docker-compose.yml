@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  restaurant-reviews-api:
+    container_name: restaurant-reviews-container
+    image: restaurant-reviews-api
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres-container
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+    networks:
+      - spring-network
+    volumes:
+      - postgres-volume:/var/lib/postgres
+networks:
+  spring-network:
+volumes:
+  postgres-volume:
