@@ -3,13 +3,11 @@ package com.reviews.restaurant.controllers;
 import com.reviews.restaurant.dto.ReviewRequestDTO;
 import com.reviews.restaurant.dto.ReviewResponseDTO;
 import com.reviews.restaurant.service.IReviewService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/review")
+@CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Content-Type"})
 public class ReviewController {
 
     private final IReviewService reviewService;
