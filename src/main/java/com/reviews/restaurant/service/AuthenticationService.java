@@ -56,7 +56,7 @@ public class AuthenticationService {
                 .fullName(registerRequestDTO.getFullName())
                 .build();
 
-        return mapUsuario.mapUsuario(user);
+        return mapUsuario.mapUsuario(usuarioRepository.save(user));
     }
 
     public String generateToken(String username) throws ObjectNotFoundException {
