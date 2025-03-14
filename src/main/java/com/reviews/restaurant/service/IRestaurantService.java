@@ -3,12 +3,13 @@ package com.reviews.restaurant.service;
 import com.reviews.restaurant.dto.RestaurantRequestDTO;
 import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface IRestaurantService {
 
-    List<RestaurantResponseDTO> getAllRestaurants();
+    Page<RestaurantResponseDTO> getAllRestaurants(Pageable pageable);
 
     RestaurantResponseDTO addRestaurant(RestaurantRequestDTO restaurant) throws BadRequestException;
 }

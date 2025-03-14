@@ -2,12 +2,10 @@ package com.reviews.restaurant.controllers;
 
 import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import com.reviews.restaurant.service.IRestaurantService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/restaurant")
@@ -21,8 +19,9 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public List<RestaurantResponseDTO> getAllRestaurants() {
-        return restaurantService.getAllRestaurants();
+    public Page<RestaurantResponseDTO> getAllRestaurants(@RequestParam Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, 6);
+        return restaurantService.getAllRestaurants(pageable);
     }
 
 

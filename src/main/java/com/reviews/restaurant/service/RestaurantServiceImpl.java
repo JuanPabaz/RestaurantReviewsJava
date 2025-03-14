@@ -12,6 +12,8 @@ import com.reviews.restaurant.repositories.CategoryRepository;
 import com.reviews.restaurant.repositories.ImageRepository;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,14 +40,14 @@ public class RestaurantServiceImpl implements IRestaurantService {
     }
 
     @Override
-    public List<RestaurantResponseDTO> getAllRestaurants() {
-        List<RestaurantResponseDTO> restaurants = mapRestaurant.mapRestaurantList(restaurantRepository.findAll());
-        return restaurants.stream()
-                .peek(restaurant -> {
+    public Page<RestaurantResponseDTO> getAllRestaurants(Pageable pageable) {
+        return restaurantRepository.findAll(pageable)
+                .map(restaurant -> {
+                    RestaurantResponseDTO restaurantResponseDTO = mapRestaurant.mapRestaurant(restaurant);
                     List<ImageResponseDTO> images = mapImage.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
-                    restaurant.setImages(images);
-                })
-                .toList();
+                    restaurantResponseDTO.setImages(images);
+                 return restaurantResponseDTO;
+                });
     }
 
     @Override
