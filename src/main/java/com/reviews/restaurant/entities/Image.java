@@ -20,6 +20,9 @@ public class Image {
     @Column(name = "image_url")
     private String image;
 
+    @Column(name = "image_alt")
+    private String imageAlt;
+
     @ManyToOne
     @JoinColumn(name = "id_restaurant")
     private Restaurant restaurant;
