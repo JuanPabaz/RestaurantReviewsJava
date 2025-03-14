@@ -13,9 +13,8 @@ public interface IMapImage{
 
     @Mappings({
             @Mapping(source = "idImage",target = "idImage"),
-            @Mapping(source = "image", target = "image"),
-            @Mapping(source = "restaurant.idRestaurant", target = "idRestaurant"),
-            @Mapping(source = "review.idReview", target = "idReview")
+            @Mapping(source = "image", target = "imageSrc"),
+            @Mapping(source = "imageAlt", target = "imageAlt")
     })
     ImageResponseDTO mapImage(Image image);
 
