@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class ImageResponseDTO {
 
     private Long idImage;
-    private String image;
-    private Long idRestaurant;
-    private Long idReview;
+    private String imageSrc;
+    private String imageAlt;
 }
