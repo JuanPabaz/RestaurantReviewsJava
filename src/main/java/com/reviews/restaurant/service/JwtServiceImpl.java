@@ -80,6 +80,7 @@ public class JwtServiceImpl {
         Map<String,Object> claims = new HashMap<>();
         User user = usuarioRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
         claims.put("role", user.getRole());
+        claims.put("userId",user.getIdUser());
         return createToke(claims,username);
     }
 
