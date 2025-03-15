@@ -39,6 +39,13 @@ public class ReviewServiceImpl implements IReviewService{
 
     @Override
     public ReviewResponseDTO addReview(ReviewRequestDTO reviewRequestDTO) {
+        if (reviewRequestDTO.getIdUser() == null){
+            throw new BadCreateRequest("La reseña debe tener un usuario asociado");
+        }
+
+        if (reviewRequestDTO.getIdRestaurant() == null){
+            throw new BadCreateRequest("La reseña debe tener un restaurante asociado");
+        }
         User user = usuarioRepository.findById(reviewRequestDTO.getIdUser()).orElseThrow(() -> new BadCreateRequest("El usuario no existe"));
         Restaurant restaurant = restaurantRepository.findById(reviewRequestDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("El restaurant no existe"));
 
