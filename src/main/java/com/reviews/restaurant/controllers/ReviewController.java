@@ -16,7 +16,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping("")
+    @PostMapping()
     public ReviewResponseDTO addReview(@RequestBody ReviewRequestDTO reviewRequestDTO) {
         return reviewService.addReview(reviewRequestDTO);
     }
