@@ -20,6 +20,7 @@ public class ReviewRequestDTO {
     private Double music;
     private Double menu;
     private Double waitingTime;
+    private Double ambient;
     private String comments;
     private Long idRestaurant;
     private Long idUser;

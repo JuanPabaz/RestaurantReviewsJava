@@ -40,6 +40,9 @@ public class Review {
     @Column(name = "waiting_time")
     private Double waitingTime;
 
+    @Column(name = "ambient")
+    private Double ambient;
+
     @Column(name = "comments")
     private String comments;
 
