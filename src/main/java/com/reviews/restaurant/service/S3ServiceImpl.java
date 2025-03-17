@@ -2,6 +2,8 @@ package com.reviews.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.nio.file.Path;
@@ -29,7 +31,11 @@ public class S3ServiceImpl implements IS3Service {
 
     @Override
     public List<String> getAllBuckets() {
-        return List.of();
+        ListBucketsResponse listBuckets = this.s3Client.listBuckets();
+        return listBuckets.buckets()
+                .stream()
+                .map(Bucket::name)
+                .toList();
     }
 
     @Override
