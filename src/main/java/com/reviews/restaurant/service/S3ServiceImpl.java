@@ -2,9 +2,7 @@ package com.reviews.restaurant.service;
 
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.Bucket;
-import software.amazon.awssdk.services.s3.model.ListBucketsResponse;
-import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.nio.file.Path;
 import java.time.Duration;
@@ -40,7 +38,12 @@ public class S3ServiceImpl implements IS3Service {
 
     @Override
     public Boolean uploadFile(String bucketName, String key, Path fileLocation) {
-        return null;
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+        PutObjectResponse putObjectResponse = this.s3Client.putObject(putObjectRequest,fileLocation);
+        return putObjectResponse.sdkHttpResponse().isSuccessful();
     }
 
     @Override
