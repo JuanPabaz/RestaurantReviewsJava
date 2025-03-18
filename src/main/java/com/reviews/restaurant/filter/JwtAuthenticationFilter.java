@@ -1,7 +1,7 @@
 package com.reviews.restaurant.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reviews.restaurant.dto.ErrorMessage;
+import com.reviews.restaurant.utils.ErrorMessage;
 import com.reviews.restaurant.service.JwtServiceImpl;
 import com.reviews.restaurant.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;

@@ -1,6 +1,6 @@
 package com.reviews.restaurant.exceptions;
 
-import com.reviews.restaurant.dto.ErrorMessage;
+import com.reviews.restaurant.utils.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

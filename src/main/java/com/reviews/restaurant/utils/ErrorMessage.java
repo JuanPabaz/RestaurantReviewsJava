@@ -1,4 +1,4 @@
-package com.reviews.restaurant.dto;
+package com.reviews.restaurant.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
