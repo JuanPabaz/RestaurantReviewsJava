@@ -43,6 +43,9 @@ public class Review {
     @Column(name = "ambient")
     private Double ambient;
 
+    @Column(name = "total_score")
+    private Double totalScore;
+
     @Column(name = "comments")
     private String comments;
 
@@ -56,5 +59,11 @@ public class Review {
 
     @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, mappedBy = "review")
     private List<Image> reviewImages;
+
+    public void updateTotalScore() {
+        this.totalScore = (this.getAmbient() + this.getFood() + this.getDrinks()
+                + this.getMenu() + this.getService() + this.getMusic()
+                + this.getWaitingTime() + this.getPlace()) / 8;
+    }
 
 }
