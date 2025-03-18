@@ -23,8 +23,7 @@ public class ReviewController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ReviewResponseDTO addReview(
-            @RequestPart("review") String reviewJson,
+    public ReviewResponseDTO addReview(@RequestPart("review") String reviewJson,
             @RequestPart(value = "images", required = false) List<MultipartFile> images
     ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
