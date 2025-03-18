@@ -59,52 +59,13 @@ public class ReviewServiceImpl implements IReviewService{
         User user = usuarioRepository.findById(reviewRequestDTO.getIdUser()).orElseThrow(() -> new BadCreateRequest("El usuario no existe"));
         Restaurant restaurant = restaurantRepository.findById(reviewRequestDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("El restaurant no existe"));
 
-        if (reviewRequestDTO.getService() < 0){
-            throw new BadCreateRequest("La puntiacion del servicio no puede ser negativa");
-        }
-        if (reviewRequestDTO.getWaitingTime() < 0){
-            throw new BadCreateRequest("La puntiacion del tiempo de espera no puede ser negativa");
-        }
-        if (reviewRequestDTO.getPlace() < 0){
-            throw new BadCreateRequest("La puntiacion del lugar no puede ser negativa");
-        }
-        if (reviewRequestDTO.getMusic() < 0){
-            throw new BadCreateRequest("La puntiacion de la musica no puede ser negativa");
-        }
-        if (reviewRequestDTO.getMenu() < 0){
-            throw new BadCreateRequest("La puntiacion del menu no puede ser negativa");
-        }
-        if (reviewRequestDTO.getDrinks() < 0){
-            throw new BadCreateRequest("La puntiacion de las bebidas no puede ser negativa");
-        }
-        if (reviewRequestDTO.getFood() < 0){
-            throw new BadCreateRequest("La puntiacion de la comida no puede ser negativa");
-        }
+        createReviewValidations(reviewRequestDTO);
 
         Review review = convertToEntity(reviewRequestDTO,restaurant,user);
+        review.updateTotalScore();
         ReviewResponseDTO reviewResponseDTO = mapReview.mapReview(reviewRepository.save(review));
 
-        List<Image> imageResponse = new ArrayList<>();
-        try{
-            if (images != null) {
-                for (MultipartFile image : images) {
-                    String key = RESTAURANT_BUCKET_FOLDER + image.getOriginalFilename();
-                    Path tempFile = Files.createTempFile("upload-", image.getOriginalFilename());
-                    image.transferTo(tempFile.toFile());
-
-                    boolean uploadSuccess = s3ServiceImpl.uploadFile(RESTAURANT_BUCKET, key, tempFile);
-                    if (uploadSuccess) {
-                        Image imageEntity = new Image();
-                        imageEntity.setImage(BUCKET_URL + key);
-                        imageEntity.setReview(review);
-                        imageResponse.add(imageEntity);
-                    }
-                }
-            }
-        }catch (IOException e){
-            throw new BadCreateRequest("Error al cargar imagen");
-        }
-
+        List<Image> imageResponse = s3ServiceImpl.saveImages(images, review, null);
         List<ImageRequestDTO> imageRequestDTOList = imageResponse
                 .stream()
                 .map(image -> {
@@ -131,9 +92,38 @@ public class ReviewServiceImpl implements IReviewService{
                 .music(reviewRequestDTO.getMusic())
                 .place(reviewRequestDTO.getPlace())
                 .waitingTime(reviewRequestDTO.getWaitingTime())
+                .ambient(reviewRequestDTO.getAmbient())
                 .restaurant(restaurant)
                 .user(user)
                 .build();
+    }
+
+    private void createReviewValidations(ReviewRequestDTO reviewRequestDTO) {
+        if (reviewRequestDTO.getService() < 0){
+            throw new BadCreateRequest("La puntiacion del servicio no puede ser negativa");
+        }
+        if (reviewRequestDTO.getWaitingTime() < 0){
+            throw new BadCreateRequest("La puntiacion del tiempo de espera no puede ser negativa");
+        }
+        if (reviewRequestDTO.getPlace() < 0){
+            throw new BadCreateRequest("La puntiacion del lugar no puede ser negativa");
+        }
+        if (reviewRequestDTO.getMusic() < 0){
+            throw new BadCreateRequest("La puntiacion de la musica no puede ser negativa");
+        }
+        if (reviewRequestDTO.getMenu() < 0){
+            throw new BadCreateRequest("La puntiacion del menu no puede ser negativa");
+        }
+        if (reviewRequestDTO.getDrinks() < 0){
+            throw new BadCreateRequest("La puntiacion de las bebidas no puede ser negativa");
+        }
+        if (reviewRequestDTO.getFood() < 0){
+            throw new BadCreateRequest("La puntiacion de la comida no puede ser negativa");
+        }
+
+        if (reviewRequestDTO.getAmbient() < 0){
+            throw new BadCreateRequest("La puntiacion de la ambientación no puede ser negativa");
+        }
     }
 
 }
