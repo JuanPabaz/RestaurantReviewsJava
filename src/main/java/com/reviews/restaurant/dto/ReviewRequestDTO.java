@@ -24,6 +24,5 @@ public class ReviewRequestDTO {
     private String comments;
     private Long idRestaurant;
     private Long idUser;
-    private List<ImageRequestDTO> images;
 
 }
