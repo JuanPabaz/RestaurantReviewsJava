@@ -29,14 +29,14 @@ public class RestaurantServiceImpl implements IRestaurantService {
 
     private final ImageRepository imageRepository;
 
-    private final IMapImage mapImage;
+    private final IIMageService imageService;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant, CategoryRepository categoryRepository, ImageRepository imageRepository, IMapImage mapImage) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant, CategoryRepository categoryRepository, ImageRepository imageRepository, IIMageService imageService) {
         this.restaurantRepository = restaurantRepository;
         this.mapRestaurant = mapRestaurant;
         this.categoryRepository = categoryRepository;
         this.imageRepository = imageRepository;
-        this.mapImage = mapImage;
+        this.imageService = imageService;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         return restaurantRepository.findAll(pageable)
                 .map(restaurant -> {
                     RestaurantResponseDTO restaurantResponseDTO = mapRestaurant.mapRestaurant(restaurant);
-                    List<ImageResponseDTO> images = mapImage.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
+                    List<ImageResponseDTO> images = imageService.mapImageListToResponseDTO(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
                     restaurantResponseDTO.setImages(images);
                  return restaurantResponseDTO;
                 });
