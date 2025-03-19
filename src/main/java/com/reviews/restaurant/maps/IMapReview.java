@@ -13,6 +13,7 @@ public interface IMapReview {
 
     @Mappings({
             @Mapping(source = "idReview", target = "idReview"),
+            @Mapping(source = "title", target = "title"),
             @Mapping(source = "place",target = "place"),
             @Mapping(source = "food", target = "food"),
             @Mapping(source = "service", target = "service"),

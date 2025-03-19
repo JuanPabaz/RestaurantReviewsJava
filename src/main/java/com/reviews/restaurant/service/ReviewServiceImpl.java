@@ -28,6 +28,7 @@ public class ReviewServiceImpl implements IReviewService{
     private final IMapReview mapReview;
 
     private final IIMageService imageService;
+
     private final S3ServiceImpl s3ServiceImpl;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService, UsuarioRepository usuarioRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
@@ -86,6 +87,7 @@ public class ReviewServiceImpl implements IReviewService{
                 .waitingTime(reviewRequestDTO.getWaitingTime())
                 .ambient(reviewRequestDTO.getAmbient())
                 .restaurant(restaurant)
+                .title(reviewRequestDTO.getTitle())
                 .user(user)
                 .build();
     }
@@ -105,6 +107,9 @@ public class ReviewServiceImpl implements IReviewService{
     }
 
     private void createReviewValidations(ReviewRequestDTO reviewRequestDTO) {
+        if (reviewRequestDTO.getTitle() == null){
+            throw new BadCreateRequest("La reseña debe tener un titulo");
+        }
         if (reviewRequestDTO.getService() < 0){
             throw new BadCreateRequest("La puntiacion del servicio no puede ser negativa");
         }

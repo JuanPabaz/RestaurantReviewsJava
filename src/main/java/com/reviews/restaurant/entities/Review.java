@@ -19,6 +19,9 @@ public class Review {
     @Column(name = "id_review")
     private Long idReview;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "place")
     private Double place;
 

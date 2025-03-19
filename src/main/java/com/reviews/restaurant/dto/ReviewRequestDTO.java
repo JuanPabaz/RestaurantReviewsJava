@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReviewRequestDTO {
 
+    private String title;
     private Double place;
     private Double food;
     private Double service;

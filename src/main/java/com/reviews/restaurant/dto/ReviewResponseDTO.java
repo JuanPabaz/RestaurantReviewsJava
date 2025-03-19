@@ -14,6 +14,7 @@ import java.util.List;
 public class ReviewResponseDTO {
 
     private Long idReview;
+    private String title;
     private Double place;
     private Double food;
     private Double service;
