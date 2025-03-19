@@ -20,8 +20,8 @@ public interface IMapReview {
             @Mapping(source = "music", target = "music"),
             @Mapping(source = "menu", target = "menu"),
             @Mapping(source = "waitingTime", target = "waitingTime"),
+            @Mapping(source = "totalScore", target = "totalScore"),
             @Mapping(source = "comments", target = "comments"),
-            @Mapping(source = "restaurant.idRestaurant", target = "idRestaurant"),
             @Mapping(source = "user.idUser", target = "idUser"),
     })
     ReviewResponseDTO mapReview(Review review);

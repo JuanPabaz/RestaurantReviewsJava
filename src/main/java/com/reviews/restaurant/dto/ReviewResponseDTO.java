@@ -22,8 +22,9 @@ public class ReviewResponseDTO {
     private Double menu;
     private Double waitingTime;
     private Double ambient;
+    private Double totalScore;
     private String comments;
-    private Long idRestaurant;
+    private RestaurantResponseDTO restaurant;
     private Long idUser;
     private List<ImageResponseDTO> images;
 
