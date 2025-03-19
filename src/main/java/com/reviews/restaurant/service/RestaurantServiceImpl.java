@@ -6,7 +6,6 @@ import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import com.reviews.restaurant.entities.Category;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
-import com.reviews.restaurant.maps.IMapImage;
 import com.reviews.restaurant.maps.IMapRestaurant;
 import com.reviews.restaurant.repositories.CategoryRepository;
 import com.reviews.restaurant.repositories.ImageRepository;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements IRestaurantService {
@@ -44,7 +44,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
         return restaurantRepository.findAll(pageable)
                 .map(restaurant -> {
                     RestaurantResponseDTO restaurantResponseDTO = mapRestaurant.mapRestaurant(restaurant);
-                    List<ImageResponseDTO> images = imageService.mapImageListToResponseDTO(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
+                    List<ImageResponseDTO> images = imageService.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
                     restaurantResponseDTO.setImages(images);
                  return restaurantResponseDTO;
                 });
@@ -64,6 +64,21 @@ public class RestaurantServiceImpl implements IRestaurantService {
         }
         Restaurant restaurant = convertToEntity(restaurantRequestDTO, category);
         return mapRestaurant.mapRestaurant(restaurantRepository.save(restaurant));
+    }
+
+    @Override
+    public Optional<Restaurant> getRestaurantById(Long id) {
+        return restaurantRepository.findById(id);
+    }
+
+    @Override
+    public RestaurantResponseDTO mapRestaurant(Restaurant restaurant) {
+        return mapRestaurant.mapRestaurant(restaurant);
+    }
+
+    @Override
+    public List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList) {
+        return mapRestaurant.mapRestaurantList(restaurantList);
     }
 
     private Restaurant convertToEntity(RestaurantRequestDTO restaurantRequestDTO, Category category) {
