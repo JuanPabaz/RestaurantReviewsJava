@@ -62,4 +62,12 @@ public class ImageServiceImpl implements IIMageService{
                 .review(review)
                 .build();
     }
+
+    public ImageResponseDTO mapImageToResponseDTO(Image image) {
+        return mapImage.mapImage(image);
+    }
+
+    public List<ImageResponseDTO> mapImageListToResponseDTO(List<Image> images) {
+        return mapImage.mapImageList(images);
+    }
 }
