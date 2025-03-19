@@ -9,20 +9,17 @@ import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.Review;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
+import com.reviews.restaurant.maps.IMapImage;
 import com.reviews.restaurant.maps.IMapReview;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import com.reviews.restaurant.repositories.ReviewRepository;
 import com.reviews.restaurant.repositories.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.reviews.restaurant.utils.Constants.*;
 
 @Service
 public class ReviewServiceImpl implements IReviewService{
@@ -96,6 +93,18 @@ public class ReviewServiceImpl implements IReviewService{
                 .restaurant(restaurant)
                 .user(user)
                 .build();
+    }
+
+    @Override
+    public Page<ReviewResponseDTO> listReviews(Pageable pageable) {
+        return reviewRepository.findAll(pageable)
+                .map(pagedReview -> {
+                    ReviewResponseDTO reviewResponse = mapReview.mapReview(pagedReview);
+                    List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageListToResponseDTO(pagedReview.getReviewImages());
+                    reviewResponse.setImages(imageResponseDTOList);
+                    return reviewResponse;
+                }
+                );
     }
 
     private void createReviewValidations(ReviewRequestDTO reviewRequestDTO) {
