@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reviews.restaurant.dto.ReviewRequestDTO;
 import com.reviews.restaurant.dto.ReviewResponseDTO;
 import com.reviews.restaurant.service.IReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +32,12 @@ public class ReviewController {
         ObjectMapper objectMapper = new ObjectMapper();
         ReviewRequestDTO reviewRequestDTO = objectMapper.readValue(reviewJson, ReviewRequestDTO.class);
         return reviewService.addReview(reviewRequestDTO, images);
+    }
+
+    @GetMapping
+    public Page<ReviewResponseDTO> getAllReviews(@RequestParam Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        return reviewService.listReviews(pageable);
     }
 
 }
