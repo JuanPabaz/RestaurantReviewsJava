@@ -10,8 +10,8 @@ public interface IIMageService {
 
     List<ImageResponseDTO> saveImages(List<ImageRequestDTO> images);
 
-    ImageResponseDTO mapImageToResponseDTO(Image image);
+    ImageResponseDTO mapImage(Image image);
 
-    List<ImageResponseDTO> mapImageListToResponseDTO(List<Image> images);
+    List<ImageResponseDTO> mapImageList(List<Image> images);
 
 }

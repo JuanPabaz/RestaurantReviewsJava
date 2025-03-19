@@ -63,11 +63,11 @@ public class ImageServiceImpl implements IIMageService{
                 .build();
     }
 
-    public ImageResponseDTO mapImageToResponseDTO(Image image) {
+    public ImageResponseDTO mapImage(Image image) {
         return mapImage.mapImage(image);
     }
 
-    public List<ImageResponseDTO> mapImageListToResponseDTO(List<Image> images) {
+    public List<ImageResponseDTO> mapImageList(List<Image> images) {
         return mapImage.mapImageList(images);
     }
 }
