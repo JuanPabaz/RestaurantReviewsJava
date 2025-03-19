@@ -1,17 +1,12 @@
 package com.reviews.restaurant.service;
 
-import com.reviews.restaurant.dto.ImageRequestDTO;
-import com.reviews.restaurant.dto.ImageResponseDTO;
-import com.reviews.restaurant.dto.ReviewRequestDTO;
-import com.reviews.restaurant.dto.ReviewResponseDTO;
+import com.reviews.restaurant.dto.*;
 import com.reviews.restaurant.entities.Image;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.Review;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
-import com.reviews.restaurant.maps.IMapImage;
 import com.reviews.restaurant.maps.IMapReview;
-import com.reviews.restaurant.repositories.RestaurantRepository;
 import com.reviews.restaurant.repositories.ReviewRepository;
 import com.reviews.restaurant.repositories.UsuarioRepository;
 import org.springframework.data.domain.Page;
@@ -26,7 +21,7 @@ public class ReviewServiceImpl implements IReviewService{
 
     private final ReviewRepository reviewRepository;
 
-    private final RestaurantRepository restaurantRepository;
+    private final IRestaurantService restaurantService;
 
     private final UsuarioRepository usuarioRepository;
 
@@ -35,9 +30,9 @@ public class ReviewServiceImpl implements IReviewService{
     private final IIMageService imageService;
     private final S3ServiceImpl s3ServiceImpl;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, RestaurantRepository restaurantRepository, UsuarioRepository usuarioRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService, UsuarioRepository usuarioRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
         this.reviewRepository = reviewRepository;
-        this.restaurantRepository = restaurantRepository;
+        this.restaurantService = restaurantService;
         this.usuarioRepository = usuarioRepository;
         this.mapReview = mapReview;
         this.imageService = imageService;
@@ -54,7 +49,7 @@ public class ReviewServiceImpl implements IReviewService{
             throw new BadCreateRequest("La reseña debe tener un restaurante asociado");
         }
         User user = usuarioRepository.findById(reviewRequestDTO.getIdUser()).orElseThrow(() -> new BadCreateRequest("El usuario no existe"));
-        Restaurant restaurant = restaurantRepository.findById(reviewRequestDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("El restaurant no existe"));
+        Restaurant restaurant = restaurantService.getRestaurantById(reviewRequestDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("El restaurant no existe"));
 
         createReviewValidations(reviewRequestDTO);
 
@@ -100,7 +95,9 @@ public class ReviewServiceImpl implements IReviewService{
         return reviewRepository.findAll(pageable)
                 .map(pagedReview -> {
                     ReviewResponseDTO reviewResponse = mapReview.mapReview(pagedReview);
-                    List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageListToResponseDTO(pagedReview.getReviewImages());
+                    Restaurant restaurant = pagedReview.getRestaurant();
+                    reviewResponse.setRestaurant(restaurantService.mapRestaurant(restaurant));
+                    List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageList(pagedReview.getReviewImages());
                     reviewResponse.setImages(imageResponseDTOList);
                     return reviewResponse;
                 }
