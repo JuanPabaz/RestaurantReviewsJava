@@ -18,4 +18,6 @@ public interface IReviewService {
     Review convertToEntity(ReviewRequestDTO review, Restaurant restaurant, User user);
 
     Page<ReviewResponseDTO> listReviews(Pageable pageable);
+
+    Page<ReviewResponseDTO> filterReviews(Pageable pageable, String name);
 }
