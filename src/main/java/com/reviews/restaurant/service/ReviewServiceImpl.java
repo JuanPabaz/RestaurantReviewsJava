@@ -109,7 +109,14 @@ public class ReviewServiceImpl implements IReviewService{
     @Override
     public Page<ReviewResponseDTO> filterReviews(Pageable pageable, String name) {
         return reviewRepository.findByRestaurantName(name, pageable)
-                .map(mapReview::mapReview);
+                .map(pagedReview -> {
+                    ReviewResponseDTO reviewResponse = mapReview.mapReview(pagedReview);
+                    Restaurant restaurant = pagedReview.getRestaurant();
+                    reviewResponse.setRestaurant(restaurantService.mapRestaurant(restaurant));
+                    List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageList(pagedReview.getReviewImages());
+                    reviewResponse.setImages(imageResponseDTOList);
+                    return reviewResponse;}
+                );
     }
 
     private void createReviewValidations(ReviewRequestDTO reviewRequestDTO) {
