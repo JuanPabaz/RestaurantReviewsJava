@@ -36,8 +36,14 @@ public class ReviewController {
 
     @GetMapping
     public Page<ReviewResponseDTO> getAllReviews(@RequestParam Integer page) {
-        Pageable pageable = PageRequest.of(page - 1, 10);
+        Pageable pageable = PageRequest.of(page - 1, 5);
         return reviewService.listReviews(pageable);
+    }
+
+    @GetMapping("/filter-review")
+    public Page<ReviewResponseDTO> filterReviews(@RequestParam Integer page, @RequestParam String title) {
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        return reviewService.filterReviews(pageable, title);
     }
 
 }
