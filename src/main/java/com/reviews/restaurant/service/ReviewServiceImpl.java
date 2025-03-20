@@ -106,6 +106,12 @@ public class ReviewServiceImpl implements IReviewService{
                 );
     }
 
+    @Override
+    public Page<ReviewResponseDTO> filterReviews(Pageable pageable, String name) {
+        return reviewRepository.findByRestaurantName(name, pageable)
+                .map(mapReview::mapReview);
+    }
+
     private void createReviewValidations(ReviewRequestDTO reviewRequestDTO) {
         if (reviewRequestDTO.getTitle() == null){
             throw new BadCreateRequest("La reseña debe tener un titulo");
