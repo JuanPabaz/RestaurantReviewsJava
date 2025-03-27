@@ -18,7 +18,9 @@ public class RestaurantResponseDTO {
     private String restuarantName;
     private String address;
     private String phoneNumber;
-    private Long idCategory;
+    private CategoryDTO category;
+    private Double avgPrice;
+    private String restuarantDescription;
     private String pageLink;
     private List<ImageResponseDTO> images;
 }

@@ -22,6 +22,9 @@ public class Restaurant {
     @Column(name = "restaurant_name")
     private String restuarantName;
 
+    @Column(name = "restaurant_description")
+    private String restuarantDescription;
+
     @Column(name = "address")
     private String address;
 
@@ -30,6 +33,9 @@ public class Restaurant {
 
     @Column(name = "page_link")
     private String pageLink;
+
+    @Column(name = "avg_prices")
+    private Double avgPrices;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
