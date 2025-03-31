@@ -21,6 +21,7 @@ public class RestaurantResponseDTO {
     private CategoryDTO category;
     private Double avgPrice;
     private String restuarantDescription;
+    private Integer reviewCount;
     private Double avgRating;
     private String pageLink;
     private List<ImageResponseDTO> images;
