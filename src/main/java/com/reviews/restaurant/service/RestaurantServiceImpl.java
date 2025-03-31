@@ -46,6 +46,8 @@ public class RestaurantServiceImpl implements IRestaurantService {
                     RestaurantResponseDTO restaurantResponseDTO = mapRestaurant.mapRestaurant(restaurant);
                     List<ImageResponseDTO> images = imageService.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
                     Double avgRating = restaurantRepository.findAvgRatingByRestaurant(restaurant.getIdRestaurant());
+                    Integer reviewCount = restaurantRepository.findReviewCountByRestaurant(restaurant.getIdRestaurant());
+                    restaurantResponseDTO.setReviewCount(reviewCount);
                     restaurantResponseDTO.setAvgRating(avgRating);
                     restaurantResponseDTO.setImages(images);
                  return restaurantResponseDTO;
