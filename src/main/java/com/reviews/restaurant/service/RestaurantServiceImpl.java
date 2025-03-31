@@ -45,6 +45,8 @@ public class RestaurantServiceImpl implements IRestaurantService {
                 .map(restaurant -> {
                     RestaurantResponseDTO restaurantResponseDTO = mapRestaurant.mapRestaurant(restaurant);
                     List<ImageResponseDTO> images = imageService.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
+                    Double avgRating = restaurantRepository.findAvgRatingByRestaurant(restaurant.getIdRestaurant());
+                    restaurantResponseDTO.setAvgRating(avgRating);
                     restaurantResponseDTO.setImages(images);
                  return restaurantResponseDTO;
                 });
