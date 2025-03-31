@@ -10,4 +10,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query("SELECT AVG(re.totalScore) FROM Restaurant AS res INNER JOIN Review AS re " +
             "ON res.idRestaurant = re.restaurant.idRestaurant WHERE res.idRestaurant = :idRestaurant")
     Double findAvgRatingByRestaurant(@Param("idRestaurant") Long idRestaurant);
+
+    @Query("SELECT COUNT(re) FROM Restaurant AS res INNER JOIN Review AS re " +
+            "ON res.idRestaurant = re.restaurant.idRestaurant WHERE res.idRestaurant = :idRestaurant")
+    Integer findReviewCountByRestaurant(@Param("idRestaurant") Long idRestaurant);
 }
