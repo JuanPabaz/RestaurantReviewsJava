@@ -24,5 +24,6 @@ public class RestaurantResponseDTO {
     private Integer reviewCount;
     private Double avgRating;
     private String pageLink;
+    private List<String> restaurantFeatures;
     private List<ImageResponseDTO> images;
 }

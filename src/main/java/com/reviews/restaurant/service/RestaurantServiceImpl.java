@@ -5,10 +5,12 @@ import com.reviews.restaurant.dto.RestaurantRequestDTO;
 import com.reviews.restaurant.dto.RestaurantResponseDTO;
 import com.reviews.restaurant.entities.Category;
 import com.reviews.restaurant.entities.Restaurant;
+import com.reviews.restaurant.entities.RestaurantFeatures;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
 import com.reviews.restaurant.maps.IMapRestaurant;
 import com.reviews.restaurant.repositories.CategoryRepository;
 import com.reviews.restaurant.repositories.ImageRepository;
+import com.reviews.restaurant.repositories.RestaurantFeaturesRepository;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
@@ -30,13 +32,17 @@ public class RestaurantServiceImpl implements IRestaurantService {
     private final ImageRepository imageRepository;
 
     private final IIMageService imageService;
+    private final RestaurantFeaturesRepository restaurantFeaturesRepository;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant, CategoryRepository categoryRepository, ImageRepository imageRepository, IIMageService imageService) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, IMapRestaurant mapRestaurant,
+                                 CategoryRepository categoryRepository, ImageRepository imageRepository,
+                                 IIMageService imageService, RestaurantFeaturesRepository restaurantFeaturesRepository) {
         this.restaurantRepository = restaurantRepository;
         this.mapRestaurant = mapRestaurant;
         this.categoryRepository = categoryRepository;
         this.imageRepository = imageRepository;
         this.imageService = imageService;
+        this.restaurantFeaturesRepository = restaurantFeaturesRepository;
     }
 
     @Override
@@ -47,9 +53,11 @@ public class RestaurantServiceImpl implements IRestaurantService {
                     List<ImageResponseDTO> images = imageService.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
                     Double avgRating = restaurantRepository.findAvgRatingByRestaurant(restaurant.getIdRestaurant());
                     Integer reviewCount = restaurantRepository.findReviewCountByRestaurant(restaurant.getIdRestaurant());
+                    List<String> features = findRestaurantFeaturesByRestaurantId(restaurant.getIdRestaurant());
                     restaurantResponseDTO.setReviewCount(reviewCount);
                     restaurantResponseDTO.setAvgRating(avgRating);
                     restaurantResponseDTO.setImages(images);
+                    restaurantResponseDTO.setRestaurantFeatures(features);
                  return restaurantResponseDTO;
                 });
     }
@@ -83,6 +91,14 @@ public class RestaurantServiceImpl implements IRestaurantService {
     @Override
     public List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList) {
         return mapRestaurant.mapRestaurantList(restaurantList);
+    }
+
+    @Override
+    public List<String> findRestaurantFeaturesByRestaurantId(Long restaurantId) {
+        return restaurantFeaturesRepository.findAllByRestaurant_IdRestaurant(restaurantId)
+                .stream()
+                .map(RestaurantFeatures::getFeature)
+                .toList();
     }
 
     private Restaurant convertToEntity(RestaurantRequestDTO restaurantRequestDTO, Category category) {
