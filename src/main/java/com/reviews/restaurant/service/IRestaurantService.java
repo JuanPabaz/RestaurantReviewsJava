@@ -22,4 +22,7 @@ public interface IRestaurantService {
     RestaurantResponseDTO mapRestaurant(Restaurant restaurant);
 
     List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList);
+
+    List<String> findRestaurantFeaturesByRestaurantId(Long restaurantId);
+
 }
