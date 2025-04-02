@@ -23,6 +23,4 @@ public interface IRestaurantService {
 
     List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList);
 
-    List<String> findRestaurantFeaturesByRestaurantId(Long restaurantId);
-
 }

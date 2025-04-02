@@ -53,7 +53,10 @@ public class RestaurantServiceImpl implements IRestaurantService {
                     List<ImageResponseDTO> images = imageService.mapImageList(imageRepository.findImagesByRestaurant(restaurant.getIdRestaurant()));
                     Double avgRating = restaurantRepository.findAvgRatingByRestaurant(restaurant.getIdRestaurant());
                     Integer reviewCount = restaurantRepository.findReviewCountByRestaurant(restaurant.getIdRestaurant());
-                    List<String> features = findRestaurantFeaturesByRestaurantId(restaurant.getIdRestaurant());
+                    List<String> features = restaurant.getRestaurantFeaturesList()
+                            .stream()
+                            .map(RestaurantFeatures::getFeature)
+                            .toList();
                     restaurantResponseDTO.setReviewCount(reviewCount);
                     restaurantResponseDTO.setAvgRating(avgRating);
                     restaurantResponseDTO.setImages(images);
@@ -91,14 +94,6 @@ public class RestaurantServiceImpl implements IRestaurantService {
     @Override
     public List<RestaurantResponseDTO> mapRestaurantList(List<Restaurant> restaurantList) {
         return mapRestaurant.mapRestaurantList(restaurantList);
-    }
-
-    @Override
-    public List<String> findRestaurantFeaturesByRestaurantId(Long restaurantId) {
-        return restaurantFeaturesRepository.findAllByRestaurant_IdRestaurant(restaurantId)
-                .stream()
-                .map(RestaurantFeatures::getFeature)
-                .toList();
     }
 
     private Restaurant convertToEntity(RestaurantRequestDTO restaurantRequestDTO, Category category) {
