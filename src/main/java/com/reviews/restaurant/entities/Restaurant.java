@@ -47,4 +47,7 @@ public class Restaurant {
     @OneToMany(targetEntity = Review.class, fetch = FetchType.LAZY, mappedBy = "restaurant")
     private List<Review> reviewList;
 
+    @OneToMany(targetEntity = RestaurantFeatures.class, fetch = FetchType.LAZY, mappedBy = "restaurant")
+    private List<RestaurantFeatures> restaurantFeaturesList;
+
 }
