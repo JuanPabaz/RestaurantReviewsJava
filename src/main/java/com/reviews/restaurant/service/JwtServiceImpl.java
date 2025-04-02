@@ -2,7 +2,7 @@ package com.reviews.restaurant.service;
 
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
-import com.reviews.restaurant.repositories.UsuarioRepository;
+import com.reviews.restaurant.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -24,13 +24,13 @@ public class JwtServiceImpl {
     @Value("${application.security.jwt.secret-key}")
     private String SECRET;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
     @Value("${application.security.jwt.access-token-expiration}")
     private long accessTokenExpire;
 
-    public JwtServiceImpl(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
+    public JwtServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public Date extractExpiration(String token) {
@@ -78,7 +78,7 @@ public class JwtServiceImpl {
 
     public String generateToken(String username) throws ObjectNotFoundException {
         Map<String,Object> claims = new HashMap<>();
-        User user = usuarioRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
         claims.put("role", user.getRole());
         claims.put("userId",user.getIdUser());
         return createToke(claims,username);

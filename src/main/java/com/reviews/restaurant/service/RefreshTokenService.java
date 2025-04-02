@@ -3,7 +3,7 @@ package com.reviews.restaurant.service;
 import com.reviews.restaurant.entities.RefreshToken;
 import com.reviews.restaurant.exceptions.ExpiredRefreshTokenException;
 import com.reviews.restaurant.repositories.RefreshTokenRepository;
-import com.reviews.restaurant.repositories.UsuarioRepository;
+import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +16,19 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
     @Value("${application.security.jwt.refresh-token-expiration}")
     private long refreshTokenExpire;
 
-    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UsuarioRepository usuarioRepository) {
+    public RefreshTokenService(RefreshTokenRepository refreshTokenRepository, UserRepository userRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
-        this.usuarioRepository = usuarioRepository;
+        this.userRepository = userRepository;
     }
 
     public RefreshToken createRefreshToken(String username){
         RefreshToken refreshToken = RefreshToken.builder()
-                .user(usuarioRepository.findByUsername(username).get())
+                .user(userRepository.findByUsername(username).get())
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(refreshTokenExpire))
                 .build();

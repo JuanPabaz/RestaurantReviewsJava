@@ -8,7 +8,7 @@ import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
 import com.reviews.restaurant.maps.IMapReview;
 import com.reviews.restaurant.repositories.ReviewRepository;
-import com.reviews.restaurant.repositories.UsuarioRepository;
+import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class ReviewServiceImpl implements IReviewService{
 
     private final IRestaurantService restaurantService;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
     private final IMapReview mapReview;
 
@@ -31,10 +31,10 @@ public class ReviewServiceImpl implements IReviewService{
 
     private final S3ServiceImpl s3ServiceImpl;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService, UsuarioRepository usuarioRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService, UserRepository userRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
         this.reviewRepository = reviewRepository;
         this.restaurantService = restaurantService;
-        this.usuarioRepository = usuarioRepository;
+        this.userRepository = userRepository;
         this.mapReview = mapReview;
         this.imageService = imageService;
         this.s3ServiceImpl = s3ServiceImpl;
@@ -49,7 +49,7 @@ public class ReviewServiceImpl implements IReviewService{
         if (reviewRequestDTO.getIdRestaurant() == null){
             throw new BadCreateRequest("La reseña debe tener un restaurante asociado");
         }
-        User user = usuarioRepository.findById(reviewRequestDTO.getIdUser()).orElseThrow(() -> new BadCreateRequest("El usuario no existe"));
+        User user = userRepository.findById(reviewRequestDTO.getIdUser()).orElseThrow(() -> new BadCreateRequest("El usuario no existe"));
         Restaurant restaurant = restaurantService.getRestaurantById(reviewRequestDTO.getIdRestaurant()).orElseThrow(() -> new BadCreateRequest("El restaurant no existe"));
 
         createReviewValidations(reviewRequestDTO);

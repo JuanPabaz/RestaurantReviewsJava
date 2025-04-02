@@ -7,7 +7,7 @@ import com.reviews.restaurant.enums.Role;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
 import com.reviews.restaurant.maps.IMapUsuario;
-import com.reviews.restaurant.repositories.UsuarioRepository;
+import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class AuthenticationService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -24,8 +24,8 @@ public class AuthenticationService {
 
     private final IMapUsuario mapUsuario;
 
-    public AuthenticationService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, JwtServiceImpl jwtService, IMapUsuario mapUsuario) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtServiceImpl jwtService, IMapUsuario mapUsuario) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.mapUsuario = mapUsuario;
@@ -33,7 +33,7 @@ public class AuthenticationService {
 
 
     public UsuarioResponseDTO saveUser(RegisterRequestDTO registerRequestDTO) throws BadUserCredentialsException {
-        if (usuarioRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()){
+        if (userRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()){
             throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ registerRequestDTO.getUsername() + ".");
         }
 
@@ -56,7 +56,7 @@ public class AuthenticationService {
                 .fullName(registerRequestDTO.getFullName())
                 .build();
 
-        return mapUsuario.mapUsuario(usuarioRepository.save(user));
+        return mapUsuario.mapUsuario(userRepository.save(user));
     }
 
     public String generateToken(String username) throws ObjectNotFoundException {

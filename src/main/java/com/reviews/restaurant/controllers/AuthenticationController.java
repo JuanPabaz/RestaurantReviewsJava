@@ -9,7 +9,7 @@ import com.reviews.restaurant.entities.RefreshToken;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ExpiredRefreshTokenException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
-import com.reviews.restaurant.repositories.UsuarioRepository;
+import com.reviews.restaurant.repositories.UserRepository;
 import com.reviews.restaurant.service.AuthenticationService;
 import com.reviews.restaurant.service.JwtServiceImpl;
 import com.reviews.restaurant.service.RefreshTokenService;
@@ -33,14 +33,14 @@ public class AuthenticationController {
 
     private final JwtServiceImpl jwtService;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
-    public AuthenticationController(AuthenticationService authenticationService, RefreshTokenService refreshTokenService, AuthenticationManager authenticationManager, JwtServiceImpl jwtService, UsuarioRepository usuarioRepository) {
+    public AuthenticationController(AuthenticationService authenticationService, RefreshTokenService refreshTokenService, AuthenticationManager authenticationManager, JwtServiceImpl jwtService, UserRepository userRepository) {
         this.authenticationService = authenticationService;
         this.refreshTokenService = refreshTokenService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.usuarioRepository = usuarioRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/register")
@@ -59,7 +59,7 @@ public class AuthenticationController {
                     .builder()
                     .accessToken(authenticationService.generateToken(authRequest.getUsername()))
                     .refreshToken(refreshToken.getToken())
-                    .role(usuarioRepository.findRoleByUsername(authRequest.getUsername()))
+                    .role(userRepository.findRoleByUsername(authRequest.getUsername()))
                     .build();
 
         }catch (BadUserCredentialsException e){
