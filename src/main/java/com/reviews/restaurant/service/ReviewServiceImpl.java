@@ -6,7 +6,7 @@ import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.Review;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
-import com.reviews.restaurant.maps.IMapReview;
+import com.reviews.restaurant.maps.ReviewMapper;
 import com.reviews.restaurant.repositories.ReviewRepository;
 import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.data.domain.Page;
@@ -25,17 +25,19 @@ public class ReviewServiceImpl implements IReviewService{
 
     private final UserRepository userRepository;
 
-    private final IMapReview mapReview;
+    private final ReviewMapper reviewMapper;
 
     private final IIMageService imageService;
 
     private final S3ServiceImpl s3ServiceImpl;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService, UserRepository userRepository, IMapReview mapReview, IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, IRestaurantService restaurantService,
+                             UserRepository userRepository, ReviewMapper reviewMapper,
+                             IIMageService imageService, S3ServiceImpl s3ServiceImpl) {
         this.reviewRepository = reviewRepository;
         this.restaurantService = restaurantService;
         this.userRepository = userRepository;
-        this.mapReview = mapReview;
+        this.reviewMapper = reviewMapper;
         this.imageService = imageService;
         this.s3ServiceImpl = s3ServiceImpl;
     }
@@ -56,7 +58,7 @@ public class ReviewServiceImpl implements IReviewService{
 
         Review review = convertToEntity(reviewRequestDTO,restaurant,user);
         review.updateTotalScore();
-        ReviewResponseDTO reviewResponseDTO = mapReview.mapReview(reviewRepository.save(review));
+        ReviewResponseDTO reviewResponseDTO = reviewMapper.mapReview(reviewRepository.save(review));
 
         List<Image> imageResponse = s3ServiceImpl.saveImages(images, review, null);
         List<ImageRequestDTO> imageRequestDTOList = imageResponse
@@ -95,22 +97,14 @@ public class ReviewServiceImpl implements IReviewService{
     @Override
     public Page<ReviewResponseDTO> listReviews(Pageable pageable) {
         return reviewRepository.findAll(pageable)
-                .map(pagedReview -> {
-                    ReviewResponseDTO reviewResponse = mapReview.mapReview(pagedReview);
-                    Restaurant restaurant = pagedReview.getRestaurant();
-                    reviewResponse.setRestaurant(restaurantService.mapRestaurant(restaurant));
-                    List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageList(pagedReview.getReviewImages());
-                    reviewResponse.setImages(imageResponseDTOList);
-                    return reviewResponse;
-                }
-                );
+                .map(reviewMapper::mapReview);
     }
 
     @Override
     public Page<ReviewResponseDTO> filterReviews(Pageable pageable, String name) {
         return reviewRepository.findByRestaurantName(name, pageable)
                 .map(pagedReview -> {
-                    ReviewResponseDTO reviewResponse = mapReview.mapReview(pagedReview);
+                    ReviewResponseDTO reviewResponse = reviewMapper.mapReview(pagedReview);
                     Restaurant restaurant = pagedReview.getRestaurant();
                     reviewResponse.setRestaurant(restaurantService.mapRestaurant(restaurant));
                     List<ImageResponseDTO> imageResponseDTOList = imageService.mapImageList(pagedReview.getReviewImages());

@@ -6,7 +6,7 @@ import com.reviews.restaurant.entities.Image;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.Review;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
-import com.reviews.restaurant.maps.IMapImage;
+import com.reviews.restaurant.maps.ImageMapper;
 import com.reviews.restaurant.repositories.ImageRepository;
 import com.reviews.restaurant.repositories.RestaurantRepository;
 import com.reviews.restaurant.repositories.ReviewRepository;
@@ -24,13 +24,11 @@ public class ImageServiceImpl implements IIMageService{
 
     private final ReviewRepository reviewRepository;
 
-    private final IMapImage mapImage;
-
-    public ImageServiceImpl(ImageRepository imageRepository, RestaurantRepository restaurantRepository, ReviewRepository reviewRepository, IMapImage mapImage) {
+    public ImageServiceImpl(ImageRepository imageRepository, RestaurantRepository restaurantRepository,
+                            ReviewRepository reviewRepository) {
         this.imageRepository = imageRepository;
         this.restaurantRepository = restaurantRepository;
         this.reviewRepository = reviewRepository;
-        this.mapImage = mapImage;
     }
 
     @SneakyThrows
@@ -39,7 +37,7 @@ public class ImageServiceImpl implements IIMageService{
         List<Image> images = imagesRequestDTO.stream()
                 .map(this::convertToEntity)
                 .toList();
-        return mapImage.mapImageList(imageRepository.saveAll(images));
+        return ImageMapper.mapImageList(imageRepository.saveAll(images));
     }
 
     private Image convertToEntity(ImageRequestDTO imageDTO) throws BadCreateRequest {
@@ -64,10 +62,10 @@ public class ImageServiceImpl implements IIMageService{
     }
 
     public ImageResponseDTO mapImage(Image image) {
-        return mapImage.mapImage(image);
+        return ImageMapper.mapImage(image);
     }
 
     public List<ImageResponseDTO> mapImageList(List<Image> images) {
-        return mapImage.mapImageList(images);
+        return ImageMapper.mapImageList(images);
     }
 }

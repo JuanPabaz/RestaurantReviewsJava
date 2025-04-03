@@ -6,7 +6,7 @@ import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.enums.Role;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
 import com.reviews.restaurant.exceptions.ObjectNotFoundException;
-import com.reviews.restaurant.maps.IMapUsuario;
+import com.reviews.restaurant.maps.UserMapper;
 import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,11 @@ public class AuthenticationService {
 
     private final JwtServiceImpl jwtService;
 
-    private final IMapUsuario mapUsuario;
-
-    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtServiceImpl jwtService, IMapUsuario mapUsuario) {
+    public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                                 JwtServiceImpl jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
-        this.mapUsuario = mapUsuario;
     }
 
 
@@ -56,7 +54,7 @@ public class AuthenticationService {
                 .fullName(registerRequestDTO.getFullName())
                 .build();
 
-        return mapUsuario.mapUsuario(userRepository.save(user));
+        return UserMapper.mapUsuario(userRepository.save(user));
     }
 
     public String generateToken(String username) throws ObjectNotFoundException {

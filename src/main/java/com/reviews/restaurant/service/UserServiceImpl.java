@@ -3,9 +3,9 @@ package com.reviews.restaurant.service;
 import com.reviews.restaurant.entities.Favorites;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.User;
+import com.reviews.restaurant.exceptions.BadCreateRequest;
 import com.reviews.restaurant.repositories.FavoriteRepository;
 import com.reviews.restaurant.repositories.UserRepository;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,12 +24,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Favorites addFavoriteRestaurant(Long restaurantId, Long userId) throws BadRequestException {
+    public Favorites addFavoriteRestaurant(Long restaurantId, Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BadRequestException("Usuario no encontrado"));
+                .orElseThrow(() -> new BadCreateRequest("Usuario no encontrado"));
 
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId)
-                .orElseThrow(() -> new BadRequestException("Restaurante no encontrado"));
+                .orElseThrow(() -> new BadCreateRequest("Restaurante no encontrado"));
 
         Favorites favorites = new Favorites();
         favorites.setRestaurant(restaurant);
