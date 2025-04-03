@@ -1,8 +1,8 @@
 package com.reviews.restaurant.service;
 
-import com.reviews.restaurant.entities.Favorites;
+import com.reviews.restaurant.dto.FavoriteResponseDTO;
 
 public interface IUserService {
 
-    Favorites addFavoriteRestaurant(Long restaurantId, Long userId);
+    FavoriteResponseDTO addFavoriteRestaurant(Long restaurantId, Long userId);
 }

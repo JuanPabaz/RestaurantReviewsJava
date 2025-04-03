@@ -1,9 +1,11 @@
 package com.reviews.restaurant.service;
 
+import com.reviews.restaurant.dto.FavoriteResponseDTO;
 import com.reviews.restaurant.entities.Favorites;
 import com.reviews.restaurant.entities.Restaurant;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.exceptions.BadCreateRequest;
+import com.reviews.restaurant.maps.FavoriteMapper;
 import com.reviews.restaurant.repositories.FavoriteRepository;
 import com.reviews.restaurant.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,17 @@ public class UserServiceImpl implements IUserService {
 
     private final FavoriteRepository favoriteRepository;
 
-    public UserServiceImpl(UserRepository userRepository, IRestaurantService restaurantService, FavoriteRepository favoriteRepository) {
+    private final FavoriteMapper favoriteMapper;
+
+    public UserServiceImpl(UserRepository userRepository, IRestaurantService restaurantService, FavoriteRepository favoriteRepository, FavoriteMapper favoriteMapper) {
         this.userRepository = userRepository;
         this.restaurantService = restaurantService;
         this.favoriteRepository = favoriteRepository;
+        this.favoriteMapper = favoriteMapper;
     }
 
     @Override
-    public Favorites addFavoriteRestaurant(Long restaurantId, Long userId) {
+    public FavoriteResponseDTO addFavoriteRestaurant(Long restaurantId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BadCreateRequest("Usuario no encontrado"));
 
@@ -35,6 +40,6 @@ public class UserServiceImpl implements IUserService {
         favorites.setRestaurant(restaurant);
         favorites.setUser(user);
 
-        return favoriteRepository.save(favorites);
+        return favoriteMapper.mapFavorite(favoriteRepository.save(favorites));
     }
 }
