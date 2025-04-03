@@ -26,7 +26,7 @@ public class ReviewResponseDTO {
     private Double totalScore;
     private String comments;
     private RestaurantResponseDTO restaurant;
-    private Long idUser;
+    private Integer idUser;
     private List<ImageResponseDTO> images;
 
 }
