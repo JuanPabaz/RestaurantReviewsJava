@@ -22,6 +22,6 @@ public class ReviewRequestDTO {
     private Double ambient;
     private String comments;
     private Long idRestaurant;
-    private Long idUser;
+    private Integer idUser;
 
 }
