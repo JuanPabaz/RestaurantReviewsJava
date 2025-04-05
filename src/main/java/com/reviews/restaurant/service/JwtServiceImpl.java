@@ -81,6 +81,7 @@ public class JwtServiceImpl {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Usuario no encontrado"));
         claims.put("role", user.getRole());
         claims.put("userId",user.getIdUser());
+        claims.put("image",user.getImage());
         return createToke(claims,username);
     }
 
