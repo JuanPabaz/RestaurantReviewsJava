@@ -1,7 +1,7 @@
 package com.reviews.restaurant.service;
 
 import com.reviews.restaurant.dto.RegisterRequestDTO;
-import com.reviews.restaurant.dto.UsuarioResponseDTO;
+import com.reviews.restaurant.dto.UserResponseDTO;
 import com.reviews.restaurant.entities.User;
 import com.reviews.restaurant.enums.Role;
 import com.reviews.restaurant.exceptions.BadUserCredentialsException;
@@ -30,7 +30,7 @@ public class AuthenticationService {
     }
 
 
-    public UsuarioResponseDTO saveUser(RegisterRequestDTO registerRequestDTO) throws BadUserCredentialsException {
+    public UserResponseDTO saveUser(RegisterRequestDTO registerRequestDTO) throws BadUserCredentialsException {
         if (userRepository.findByUsername(registerRequestDTO.getUsername()).isPresent()){
             throw new BadUserCredentialsException("Ya existe un usuario con este correo: "+ registerRequestDTO.getUsername() + ".");
         }

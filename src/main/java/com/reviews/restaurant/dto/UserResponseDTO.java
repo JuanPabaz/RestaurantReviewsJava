@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UsuarioResponseDTO {
+public class UserResponseDTO {
 
     private Integer idUser;
     private String fullName;

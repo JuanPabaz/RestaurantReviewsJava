@@ -1,18 +1,18 @@
 package com.reviews.restaurant.maps;
 
-import com.reviews.restaurant.dto.UsuarioResponseDTO;
+import com.reviews.restaurant.dto.UserResponseDTO;
 import com.reviews.restaurant.entities.User;
 
 import java.util.List;
 
 public class UserMapper {
 
-    public static UsuarioResponseDTO mapUsuario(User user) {
+    public static UserResponseDTO mapUsuario(User user) {
         if (user == null) {
             return null;
         }
 
-        UsuarioResponseDTO dto = new UsuarioResponseDTO();
+        UserResponseDTO dto = new UserResponseDTO();
         dto.setIdUser(user.getIdUser());
         dto.setFullName(user.getFullName());
         dto.setRole(user.getRole());
@@ -21,7 +21,7 @@ public class UserMapper {
         return dto;
     }
 
-    public static List<UsuarioResponseDTO> mapUsuarioList(List<User> userList) {
+    public static List<UserResponseDTO> mapUsuarioList(List<User> userList) {
         if (userList == null) {
             return null;
         }
