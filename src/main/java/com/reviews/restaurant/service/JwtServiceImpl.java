@@ -82,6 +82,7 @@ public class JwtServiceImpl {
         claims.put("role", user.getRole());
         claims.put("userId",user.getIdUser());
         claims.put("image",user.getImage());
+        claims.put("banner",user.getBanner());
         return createToke(claims,username);
     }
 
