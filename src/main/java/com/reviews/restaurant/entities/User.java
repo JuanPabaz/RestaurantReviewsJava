@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "banner")
+    private String banner;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
