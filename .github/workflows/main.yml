@@ -31,6 +31,6 @@ jobs:
       - name: Pull image from docker hub
         run: docker pull juanpablo24/restaurant-aws-ec2:latest
       - name: Delete old container
-        run: docker rm - f restaurant-aws-container
+        run: docker rm -f restaurant-aws-container
       - name: Run docker container
         run: docker run -d -p 8080:8080 --name restaurant-aws-container juanpablo24/restaurant-aws-ec2
