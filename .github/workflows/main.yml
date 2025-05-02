@@ -26,7 +26,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [restaurant-aws-ec2]
+    runs-on: [restaurant-aws]
     steps:
       - name: Pull image from docker hub
         run: docker pull juanpablo24/restaurant-aws-ec2:latest
