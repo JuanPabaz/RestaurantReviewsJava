@@ -16,6 +16,7 @@ public class CategoryController {
 
     private final ICategoryService categoryService;
 
+    //Prueba
     public CategoryController(ICategoryService categoryService) {
         this.categoryService = categoryService;
     }
